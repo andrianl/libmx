@@ -6,5 +6,8 @@
 *.swo
 .vscode/**/*
 .idea/**/*
+*.c
 .gitignore
+
+src_draft/**/*
 libmx.a

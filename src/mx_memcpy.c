@@ -2,11 +2,10 @@
 
 void *mx_memcpy(void *restrict dst, const void *restrict src, size_t n)
 {
-    char *csrc = (char *)src;
-    char *cdst = (char *)dst;
+    const char *s = src;
+    char *d = dst;
 
-    // char *ptr;
-    while (n)
-        *cdst++ = *csrc++;
+    while (n--)
+        *d++ = *s++;
     return dst;
 }

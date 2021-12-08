@@ -2,6 +2,9 @@
 
 char *mx_nbr_to_hex(unsigned long nbr)
 {
+    if (nbr == 0)
+        return "0";
+
     unsigned long rem;
     int j = 0;
     char ch[16];

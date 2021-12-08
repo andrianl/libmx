@@ -1,8 +1,6 @@
 #include "libmx.h"
 
-int mx_toupper(int c) {
-    if (mx_islower(c)) {
-        return (c-32);
-    }
-    return c;
+int mx_toupper(int c)
+{
+    return mx_islower(c) ? c - 32 : c;
 }

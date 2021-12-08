@@ -11,10 +11,12 @@ int mx_count_words(const char *str, char c)
     {
         while (*str)
         {
-            for ( ; *str && *str == c; ++str);
+            for (; *str && *str == c; ++str)
+                ;
             if (*str && *str != c)
             {
-                for (; *str && *str != c; ++str);
+                for (; *str && *str != c; ++str)
+                    ;
                 ++words;
             }
         }

@@ -1,12 +1,7 @@
 #include "libmx.h"
 
-char *mx_strdup(const char *s1)
+char *mx_strdup(const char *str)
 {
-    size_t siz;
-    char *copy;
-    siz = mx_strlen(s1) + 1;
-    if ((copy = malloc(siz)) == NULL)
-        return (NULL);
-    (void)mx_memcpy(copy, s1, siz);
-    return (copy);
+    char *copy_str = mx_strnew(mx_strlen(str));
+    return mx_strcpy(copy_str, str);
 }

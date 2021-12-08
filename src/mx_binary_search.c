@@ -1,6 +1,4 @@
-#include <stdio.h>
-
-int mx_strcmp(const char *s1, const char *s2);
+#include "libmx.h"
 
 int mx_binary_search(char **arr, int size, const char *s, int *count)
 {
@@ -25,14 +23,3 @@ int mx_binary_search(char **arr, int size, const char *s, int *count)
     *count = 0;
     return -1;
 }
-
-// int main()
-// {
-//     char *arr[] = {"222", "Abcd", "aBc", "ab", "az", "z"};
-//     int count = 0;
-//     printf("%d\n", mx_binary_search(arr, 6, "ab", &count));
-//     printf("%d\n", count);
-//     count = 0;
-//     printf("%d\n", mx_binary_search(arr, 6, "aBc", &count));
-//     printf("%d\n", count);
-// }

@@ -1,29 +1,27 @@
 #include "libmx.h"
 
-void *mx_memmem(const void *big, size_t big_len, const void *little, size_t little_len)
+void *mx_memmem(const void *big, size_t big_len, const void *little,
+                size_t little_len)
 {
-    register char *cur, *last;
-    const char *cl = (const char *)big;
-    const char *cs = (const char *)little;
+    unsigned char *uc_big = (unsigned char *)big;
+    unsigned char *uc_lil = (unsigned char *)little;
+    int cmp_rslt = 0;
 
-    /* we need something to compare */
-    if (big_len == 0 || little_len == 0)
-        return NULL;
+    if (uc_big && uc_lil)
+    {
+        for (size_t i = 0; i < big_len && uc_big[i]; i++)
+        {
+            if (*(uc_big + i) == *uc_lil)
+            {
+                cmp_rslt = mx_memcmp((uc_big + i), uc_lil, little_len);
 
-    /* "s" must be smaller or equal to "l" */
-    if (big_len < little_len)
-        return NULL;
+                if (cmp_rslt == 0)
+                {
+                    return (void *)(uc_big + i);
+                }
+            }
+        }
+    }
 
-    /* special case where s_len == 1 */
-    if (little_len == 1)
-        return mx_memchr(big, (int)*cs, big_len);
-
-    /* the last position where its possible to find "s" in "l" */
-    last = (char *)cl + big_len - little_len;
-
-    for (cur = (char *)cl; cur <= last; cur++)
-        if (cur[0] == cs[0] && mx_memcmp(cur, cs, little_len) == 0)
-            return cur;
-
-    return NULL;
+    return (void *)NULL;
 }

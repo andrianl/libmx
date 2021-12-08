@@ -1,13 +1,8 @@
 #include "libmx.h"
 
-char *mx_strstr(const char *haystack, const char *needle)                                /* Substring to try to find in string. */
+char *mx_strstr(const char *haystack, const char *needle)
 {
     register char *a, *b;
-
-    /* First scan quickly through the two strings looking for a
-     * single-character match.  When it's found, then compare the
-     * rest of the substring.
-     */
 
     b = (char *)needle;
     if (*b == 0)

@@ -8,3 +8,4 @@ int mx_strlen(const char *str)
 		;
 	return (s - str);
 }
+

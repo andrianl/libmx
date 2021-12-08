@@ -1,12 +1,15 @@
 #include "libmx.h"
 
-int mx_factorial_iter(int n) {
+int mx_factorial_iter(int n)
+{
     long result = 1;
 
-    for (int i = 1; i <= n; i++) {
+    for (int i = 1; i <= n; i++)
+    {
         result *= i;
 
-        if (result > INT_MAX) {
+        if (result > INT_MAX)
+        {
             return 0;
         }
     }

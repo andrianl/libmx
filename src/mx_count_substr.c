@@ -2,6 +2,12 @@
 
 int mx_count_substr(const char *str, const char *sub)
 {
+    if (!str || !sub)
+        return -1;
+
+    if (mx_strcmp(sub, "") == 0)
+        return 0;
+
     size_t string_length = mx_strlen(str);
     size_t sub_length = mx_strlen(sub);
     int result = 0;

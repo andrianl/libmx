@@ -6,3 +6,4 @@ void swap(int *xp, int *yp)
     *yp ^= *xp;
     *xp ^= *yp;
 }
+

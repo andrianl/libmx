@@ -1,6 +1,6 @@
 #include "libmx.h"
 
-// You must free the result if result is non-NULL.
+
 char *mx_replace_substr(const char *str, const char *sub,
                         const char *replace)
 {
@@ -13,13 +13,13 @@ char *mx_replace_substr(const char *str, const char *sub,
     int count;     // number of replacements
 
     // sanity checks and initialization
-    if (!str || !sub)
+    if (!str || !sub || !replace)
         return NULL;
     len_rep = mx_strlen(sub);
     if (len_rep == 0)
         return NULL; // empty rep causes infinite loop during count
-    if (!replace)
-        replace = "";
+    // if (!replace)
+    //     replace = "";
     len_with = mx_strlen(replace);
 
     // count the number of replacements needed
@@ -34,18 +34,13 @@ char *mx_replace_substr(const char *str, const char *sub,
     if (!result)
         return NULL;
 
-    // first time through the loop, all the variable are set correctly
-    // from here on,
-    //    tmp points to the end of the result string
-    //    ins points to the next occurrence of rep in orig
-    //    orig points to the remainder of orig after "end of rep"
     while (count--)
     {
         ins = mx_strstr(str, sub);
         len_front = ins - str;
         tmp = mx_strncpy(tmp, str, len_front) + len_front;
         tmp = mx_strcpy(tmp, replace) + len_with;
-        str += len_front + len_rep; // move to next "end of rep"
+        str += len_front + len_rep;
     }
     mx_strcpy(tmp, str);
     return result;
