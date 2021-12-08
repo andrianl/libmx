@@ -1,4 +1,4 @@
-# UCode LibMX
+# Ucode libmx
 C Library for studying purpose
 
 
