@@ -2,13 +2,14 @@
 
 char *mx_concat_words(char **words)
 {
-    char *result = "";
-    char *step;
 
     if (words == NULL)
         return NULL;
 
-    for (int i = 0; words[i] != NULL; i++)
+    char *result = "";
+    char *step = NULL;
+
+    for (unsigned i = 0; words[i] != NULL; i++)
     {
         if (i == 0)
             step = mx_strdup(words[i]);

@@ -2,9 +2,10 @@
 
 void *mx_memchr(register const void *s, int c, size_t n)
 {
-  const unsigned char *src = (const unsigned char *)s;
+  const ubyte *src = (const ubyte *)s;
 
-  while (n-- > 0)
+  // while (n-- > 0)
+  while (n--)
   {
     if (*src == c)
       return (void *)src;

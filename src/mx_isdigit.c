@@ -2,5 +2,5 @@
 
 bool mx_isdigit(int c)
 {
-    return (c > 47 && c < 58) ? true : false;
+    return (c > 47 && c < 58);
 }

@@ -2,8 +2,8 @@
 
 void *mx_memcpy(void *restrict dst, const void *restrict src, size_t n)
 {
-    const char *s = src;
-    char *d = dst;
+    const byte *s = src;
+    byte *d = dst;
 
     while (n--)
         *d++ = *s++;

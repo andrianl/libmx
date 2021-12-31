@@ -2,16 +2,16 @@
 
 char **mx_strsplit(char const *s, char c)
 {
-    int words, chars = 0;
-    char **arr = NULL;
 
     if (!s)
         return NULL;
 
-    words = mx_count_words(s, c);
-    arr = (char **)malloc(sizeof(char *) * (words + 1));
+    unsigned words, chars = 0;
 
-    for (int i = 0; i < words; i++)
+    words = mx_count_words(s, c);
+    char **arr = (char **)malloc(sizeof(char *) * (words + 1));
+
+    for (unsigned i = 0; i < words; i++)
     {
         chars = 0;
         while (*s == c && *s)

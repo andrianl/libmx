@@ -5,21 +5,24 @@ int mx_count_words(const char *str, char c)
     if (!str)
         return -1;
 
-    int words = 0;
+    unsigned words = 0;
 
-    if (str)
+    while (*str)
     {
-        while (*str)
+
+        while (*str && *str == c)
         {
-            for (; *str && *str == c; ++str)
-                ;
-            if (*str && *str != c)
+            ++str;
+        }
+
+        if (*str && *str != c)
+        {
+            while (*str && *str != c)
             {
-                for (; *str && *str != c; ++str)
-                    ;
-                ++words;
+                ++str;
             }
+            ++words;
         }
     }
-    return words;
+    return (int)words;
 }

@@ -1,48 +1,42 @@
 #include "libmx.h"
+//#include <limits.h>
 
 void mx_printint(int n)
 {
 
     char integer[12];
-    int count = 0;
-    int base = 10;
-    if (n <= INT_MIN && base == 10)
+    ubyte count = 0;
+    if (n <= INT_MIN)
     {
-        write(1, "-2147483648", 11);
+        mx_printstr("-2147483648");
         return;
     }
-    if (n >= INT_MAX && base == 10)
+    if (n >= INT_MAX)
     {
-        write(1, "2147483647", 10);
+        mx_printstr("2147483647");
         return;
     }
 
     if (!n)
     {
-        //mx_printchar('0');
-        write(1, "0", 1);
+        mx_printchar('0');
         return;
     }
+
     if (n < 0)
     {
         n = -n;
-        //mx_printchar('-');
-        write(1, "-", 1);
+        mx_printchar('-');
     }
 
     while (n)
     {
-        int rem = n % base;
-        //integer[count] = n % base + '0';
-        integer[count] = (rem > 9) ? (rem - 10) + 'a' : rem + '0';
-        n = n / base;
+        integer[count] = n % 10 + '0';
+        n = n / 10;
         count++;
     }
 
-    for (int character = count - 1; character >= 0; character--)
-    {
-        //mx_printchar(intseger[character]);
-        write(1, &integer[character], 1);
-    }
-    // mx_printchar('\n');
+    integer[count + 1] = '\0';
+    mx_str_reverse(integer);
+    mx_printstr(integer);
 }

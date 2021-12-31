@@ -1,6 +1,9 @@
-#ifndef LIBMX_H
-#define LIBMX_H
-#pragma once
+#ifndef __LIBMX_H__
+#define __LIBMX_H__
+
+// ==================== typedefs =====================
+typedef unsigned char ubyte;
+typedef char byte;
 
 // ===================== defines ======================
 
@@ -21,6 +24,8 @@
 #define MX_MIN(x, y, type) (((type)x) < ((type)y) ? (x) : (y))
 #define MX_MAX(x, y, type) (((type)x) > ((type)y) ? (x) : (y))
 
+#define size(x) sizeof(x) / sizeof(x[0])
+
 // ===================== includes =====================
 #include <fcntl.h>
 #include <limits.h>
@@ -34,8 +39,8 @@
 
 typedef struct s_list
 {
-    void *data;
-    struct s_list *next;
+  void *data;
+  struct s_list *next;
 } t_list;
 
 typedef unsigned char t_ftbyte;
@@ -44,10 +49,10 @@ typedef unsigned char t_ftbyte;
 
 typedef struct s_fd
 {
-    bool eof;
-    int fd;
-    char *str;
-    struct s_fd *next;
+  bool eof;
+  int fd;
+  char *str;
+  struct s_fd *next;
 } t_fd;
 
 // ===================== Functions =====================
@@ -65,7 +70,6 @@ void mx_print_unicode(wchar_t c);
 char *mx_nbr_to_hex(unsigned long nbr);
 char *mx_itoa(int number);
 unsigned long mx_hex_to_nbr(const char *hex);
-char *mx_itoa(int number);
 
 // ---------------- math ----------------
 double mx_pow(double n, unsigned int pow);
@@ -105,7 +109,8 @@ char *mx_strjoin(char const *s1, char const *s2);
 char *mx_strncpy(char *dst, const char *src, int len);
 char *mx_strstr(const char *haystack, const char *needle);
 int mx_strcmp(const char *s1, const char *s2);
-int mx_strncmp(register const char *s1, register const char *s2, register size_t n);
+int mx_strncmp(register const char *s1, register const char *s2,
+               register size_t n);
 int mx_strlen(const char *s);
 
 // -------------- useful functions  --------------
@@ -120,8 +125,7 @@ void mx_str_reverse(char *s);
 void mx_swap_char(char *s1, char *s2);
 
 // --------- files -----------
-char *mx_file_to_str(const char *file);
-__int64_t mx_get_file_length(const char *filename);
+char *mx_file_to_str(const char *filename);
 int mx_read_line(char **lineptr, size_t buf_size, char delim, const int fd);
 
 // ======================= MEMORY ========================
@@ -130,7 +134,8 @@ int mx_memcmp(const void *s1, const void *s2, size_t n);
 void *mx_memchr(const void *s, int c, size_t n);
 void *mx_memcpy(void *restrict dst, const void *restrict src, size_t n);
 void *mx_memccpy(void *restrict dst, const void *restrict src, int c, size_t n);
-void *mx_memmem(const void *big, size_t big_len, const void *little, size_t little_len);
+void *mx_memmem(const void *big, size_t big_len, const void *little,
+                size_t little_len);
 void *mx_memset(void *b, int c, size_t len);
 void *mx_memrchr(const void *s, int c, size_t n);
 void *mx_memmove(void *dst, const void *src, size_t len);
@@ -157,7 +162,6 @@ bool mx_isupper(int c);
 void swap(int *xp, int *yp);
 void swapn(void *v1, void *v2, int size);
 
-
 char *mx_concat_words(char **words);
 char *mx_strchr(const char *s, int c);
 
@@ -169,10 +173,14 @@ int mx_lcm(int a, int b);
 int mx_tolower(int c);
 int mx_toupper(int c);
 
+int mx_min(int a, int b);
+int mx_max(int a, int b);
+int mx_abs(int a);
 unsigned long mx_mod(int num);
+float mx_powf(float base, int exp);
 
 void mx_only_printable(void);
 void mx_print_arr_int(const int *arr, int size);
 void mx_printerr(const char *s);
 
-#endif
+#endif // __LIBMX_H__

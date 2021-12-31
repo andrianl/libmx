@@ -1,5 +1,7 @@
 #include "libmx.h"
 
+#define HEX 16
+
 char *mx_nbr_to_hex(unsigned long nbr)
 {
     if (nbr == 0)

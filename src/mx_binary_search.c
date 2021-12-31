@@ -2,9 +2,9 @@
 
 int mx_binary_search(char **arr, int size, const char *s, int *count)
 {
-    int start = 0;
-    int end = size - 1;
-    int mid = (start + end) / 2;
+    unsigned start = 0;
+    unsigned end = size - 1;
+    unsigned mid = (start + end) / 2;
 
     while (start <= end)
     {

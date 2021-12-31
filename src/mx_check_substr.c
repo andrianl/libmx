@@ -8,7 +8,7 @@ int mx_check_substr(const char *src, const char *sub)
     if (!sub)
         return -1;
 
-    int result = 0;
+    unsigned result = 0;
 
     for (int i = 0; sub[i]; i++)
     {
@@ -16,5 +16,5 @@ int mx_check_substr(const char *src, const char *sub)
             return (src[i] - sub[i]);
     }
 
-    return result;
+    return (int)result;
 }

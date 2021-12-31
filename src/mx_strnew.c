@@ -2,13 +2,11 @@
 
 char *mx_strnew(const int size)
 {
-    char *new_string;
 
     if (size >= 0)
     {
-        new_string = malloc(size + 1);
-        for (int i = 0; i <= size; i++)
-            new_string[i] = '\0';
+        char *new_string = malloc(size + 1);
+        mx_memset(new_string, '\0', size+1);
         return new_string;
     }
     return NULL;

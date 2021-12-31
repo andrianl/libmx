@@ -1,10 +1,11 @@
 #include "libmx.h"
+//#include <limits.h>
 
 int mx_factorial_iter(int n)
 {
-    long result = 1;
+    unsigned result = 1;
 
-    for (int i = 1; i <= n; i++)
+    for (unsigned i = 1; i < (unsigned)n + 1; i++)
     {
         result *= i;
 

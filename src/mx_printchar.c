@@ -1,4 +1,5 @@
-#include "../inc/libmx.h"
+#include "libmx.h"
+//#include <unistd.h>
 
 void mx_printchar(char c)
 {

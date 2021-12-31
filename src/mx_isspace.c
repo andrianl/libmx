@@ -2,5 +2,5 @@
 
 bool mx_isspace(char c)
 {
-	return c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r';
+	return c == ' ' || (c > 8 && c < 14);
 }

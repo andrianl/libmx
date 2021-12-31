@@ -1,18 +1,17 @@
 #include "libmx.h"
 
-char *mx_strchr(const char *s, int c)
-{
-    for (int i = 0;; i++)
-    {
-        if (c != '\0' && s[i] == '\0')
-        {
-            break;
-        }
 
-        if (s[i] == c)
-        {
-            return (char *)s;
-        }
-    }
-    return 0;
+char *mx_strchr(const char *p, int ch)
+{
+	char c;
+
+	c = ch;
+	for (;; ++p)
+	{
+		if (*p == c)
+			return ((char *)p);
+		if (*p == '\0')
+			return (NULL);
+	}
+	/* NOTREACHED */
 }

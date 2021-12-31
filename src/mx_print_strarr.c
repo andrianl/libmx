@@ -7,5 +7,5 @@ void mx_print_strarr(char **arr, const char *delim)
 
     for (mx_printstr(*arr); *++arr; mx_printstr(*arr))
         mx_printstr(delim);
-    write(1, "\n", 1);
+   mx_printchar('\n');
 }

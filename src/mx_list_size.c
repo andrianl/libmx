@@ -2,7 +2,7 @@
 
 int mx_list_size(t_list *list)
 {
-    int result = 0;
+    ubyte result = 0;
 
     while (list != NULL)
     {
@@ -10,5 +10,5 @@ int mx_list_size(t_list *list)
         list = list->next;
     }
 
-    return result;
+    return (int)result;
 }

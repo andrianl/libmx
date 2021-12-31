@@ -2,5 +2,5 @@
 
 bool mx_islower(int c)
 {
-    return (c > 96 && c < 123) ? true : false;
+    return (c > 96 && c < 123);
 }

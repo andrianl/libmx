@@ -2,14 +2,13 @@
 
 void mx_pop_back(t_list **list)
 {
-    t_list *temp = NULL;
 
     if (list == NULL || *list == NULL)
-    {
         return;
-    }
 
-    temp = *list;
+    t_list *temp = *list;
+    //temp = *list;
+
     if (temp->next == NULL)
     {
         free(*list);
