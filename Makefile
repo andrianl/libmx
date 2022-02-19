@@ -1,44 +1,123 @@
-# ======== variables ========
-NAME := libmx.a
+CC = clang
+NAME = libmx
 
-# -- files and dirs --
-INC_DIR := inc
-OBJ_DIR := obj
-SRC_DIR := src
+# set default rule
+.DEFAULT_GOAL = all
 
-INC_FILES := $(wildcard $(INC_DIR)/*.h)
-SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
-OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILES:%.c=%.o)))
+MKDIR = mkdir -p
+PRINT = printf
+AR = ar rcs
+RM = rm -rf
 
-# -- commands --
+# colors
+R = \033[1;91m
+G = \033[1;92m
+Y = \033[1;93m
+B = \033[1;94m
+M = \033[1;95m
+C = \033[1;96m
+S = \033[38;5;45;1m
+D = \033[0m
+F = \033[5m
+K = \033[K
 
-RM := rm -rdf
-MKDIR := mkdir -p
+# warning flags
+WFLAGS = -Wall -Wextra -Werror -Wpedantic
+# debug flags
+DFLAGS = -O0 -g3 -ftrapv -fstandalone-debug
 
-CC := clang
-CFLAGS := -std=c11 -Wall -Werror -Wextra -Wpedantic
+SRC_DIR = src/
+INC_DIR = inc/
+OBJ_DIR = obj/
 
-# ========== body =========
+# collect subdirectories in source directory
+SRC_DIRS := $(wildcard $(SRC_DIR)**) $(SRC_DIR)
+# collect source files
+SRC := $(wildcard $(SRC_DIR)**/*.c) $(wildcard $(SRC_DIR)*.c)
 
-all: ${NAME}
+# collect subdirectories in header directory
+INC_DIRS := $(wildcard $(INC_DIR)**) $(INC_DIR)
+# collect header files
+HDR := $(wildcard $(INC_DIR)**/*.h) $(wildcard $(INC_DIR)*.h)
 
-${NAME}: $(OBJ_FILES)
-	@ar rcs $(NAME) $(OBJ_FILES)
+# include flags
+IFLAGS := $(foreach f, $(INC_DIRS), $(f:%=-I%))
+# link directory flags
+LFLAGS := # -L...
+# link library flags
+lFLAGS := # -l...
 
-$(OBJ_FILES): | $(OBJ_DIR)
+# compilation of translation unit
+COMPILE := $(CC) -std=c11 -pipe $(WFLAGS) $(IFLAGS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
-	@$(CC) $(CFLAGS) -c $< -I $(INC_DIR) -o $@
+# template for building version of target with different compilation flags
+define BUILD_template # 1 - target | 2 - flags
 
-$(OBJ_DIR):
-	@$(MKDIR) $(OBJ_DIR)
+# add build type in name if it isn't default build
+ifeq ($1,default)
+NAME_$1 = $(NAME).a
+else
+NAME_$1 = $(NAME)_$1.a
+endif
 
+# add name of target file to list of build targets
+BUILD_NAMES += $$(NAME_$1)
+
+# create name of subdirectory for subdirectories with object files
+OBJ_DIR_$1 = $(OBJ_DIR)$1/
+# create names of subdirectories with object files
+OBJ_DIRS_$1 = $$(SRC_DIRS:$(SRC_DIR)%=$$(OBJ_DIR_$1)%)
+# create names of object files
+OBJ_$1 = $(SRC:$(SRC_DIR)%.c=$$(OBJ_DIR_$1)%.o)
+
+# rule for creating subdirectories for object files
+$$(OBJ_DIR_$1):
+	@$(MKDIR) $$(OBJ_DIR) $$@ $$(OBJ_DIRS_$1)
+
+# rules for compilation every object file that depend on source file and header files
+$$(OBJ_DIR_$1)%.o: $$(SRC_DIR)%.c $$(HDR)
+	@$(PRINT) "$K$G COMPILING $Y[$M$1$Y] $B$$(<:$(SRC_DIR)%=%)$D\r"
+	@$(COMPILE) $2 -o $$@ -c $$<
+
+# rule for creating static library from object files
+$$(NAME_$1): $$(OBJ_DIR_$1) $$(OBJ_$1) $$(HDR)
+	@$(PRINT) "$K$G ARCHIVING $Y[$M$1$Y] $R$$@$D\r"
+	@$(AR) $$@ $$(OBJ_$1)
+endef
+
+# generates build targets from template
+$(eval $(call BUILD_template,default,))
+$(eval $(call BUILD_template,release,-Ofast -march=native -flto))
+$(eval $(call BUILD_template,debug,$(DFLAGS)))
+$(eval $(call BUILD_template,debug_address,$(DFLAGS) -fsanitize=address -fno-sanitize=null -fno-sanitize=alignment))
+$(eval $(call BUILD_template,debug_undefined,$(DFLAGS) -fsanitize=undefined -fno-sanitize-recover=all -fsanitize=float-divide-by-zero -fsanitize=float-cast-overflow))
+$(eval $(call BUILD_template,debug_address_undefined,$(DFLAGS) -fsanitize=address,undefined -fno-sanitize-recover=all -fsanitize=float-divide-by-zero -fsanitize=float-cast-overflow -fno-sanitize=null -fno-sanitize=alignment))
+$(eval $(call BUILD_template,debug_leak,$(DFLAGS) -fsanitize=address))
+#$(eval $(call BUILD_template,debug_mx_memory,$(DFLAGS) -fsanitize=mx_memory))
+#$(eval $(call BUILD_template,debug_thread,$(DFLAGS) -fsanitize=thread))
+
+# default rule
+all: $(BUILD_NAMES)
+	@$(PRINT) "$K$S╔═══════════════════════════════════════════════════════════════════════════════════════════════════╗\n\
+	║                                                                                                   ║\n\
+	║       $C██$M╗     $C██$M╗$C██████$M╗           $C██$M╗$C███████$M╗    $C██████$M╗ $C███████$M╗ $C█████$M╗ $C██████$M╗ $C██$M╗   $C██$M╗       $S║\n\
+	║       $C██$M║     $C██$M║$C██$M╔══$C██$M╗$F$Y▄ ██$G╗$Y▄$D    $C██$M║$C██$M╔════╝    $C██$M╔══$C██$M╗$C██$M╔════╝$C██$M╔══$C██$M╗$C██$M╔══$C██$M╗╚$C██$M╗ $C██$M╔╝       $S║\n\
+	║       $C██$M║     $C██$M║$C██████$M╔╝ $F$Y████$G╗$D    $C██$M║$C███████$M╗    $C██████$M╔╝$C█████$M╗  $C███████$M║$C██$M║  $C██$M║ ╚$C████$M╔╝        $S║\n\
+	║       $C██$M║     $C██$M║$C██$M╔══$C██$M╗$F$Y▀$G╚$Y██$G╔$Y▀$D    $C██$M║╚════$C██$M║    $C██$M╔══$C██$M╗$C██$M╔══╝  $C██$M╔══$C██$M║$C██$M║  $C██$M║  ╚$C██$M╔╝         $S║\n\
+	║       $C███████$M╗$C██$M║$C██████$M╔╝  $F$G╚═╝$D     $C██$M║$C███████$M║    $C██$M║  $C██$M║$C███████$M╗$C██$M║  $C██$M║$C██████$M╔╝   $C██$M║          $S║\n\
+	║       $M╚══════╝╚═╝╚═════╝           ╚═╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝    ╚═╝          $S║\n\
+	║                                                                                                   ║\n\
+	╚═══════════════════════════════════════════════════════════════════════════════════════════════════╝\n$D"
+
+# deletes directory with object files
 clean:
 	@$(RM) $(OBJ_DIR)
 
-uninstall: clean
-	@$(RM) $(NAME)
+# deletes directory with object files and libraries
+uninstall:
+	@$(RM) $(OBJ_DIR) $(BUILD_NAMES)
 
 reinstall: uninstall all
 
-.PHONY: all uninstall clean reinstall
+# prevents errors if some item in current directory named same as one of this targets
+.PHONY: all clean uninstall reinstall
