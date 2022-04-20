@@ -1,4 +1,4 @@
-#include "libmx.h"
+#include "math.h"
 
 unsigned long mx_mod(int num)
 {

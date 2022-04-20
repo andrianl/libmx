@@ -1,4 +1,4 @@
-#include "libmx.h"
+#include "math.h"
 #include <limits.h>
 
 int mx_factorial_iter(int n)

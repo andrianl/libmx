@@ -1,4 +1,4 @@
-#include "libmx.h"
+#include "math.h"
 
 int mx_sqrt(int x)
 {

@@ -1,4 +1,4 @@
-#include "libmx.h"
+#include "math.h"
 
 double mx_pow(double n, unsigned int pow)
 {
