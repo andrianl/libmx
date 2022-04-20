@@ -9,7 +9,7 @@ void *mx_memmem(const void *restrict big, size_t big_len, const void *restrict l
 
     if (uc_big && uc_lil)
     {
-        for (unsigned i = 0; i < big_len && uc_big[i]; i++)
+        for (size_t i = 0; i < big_len && uc_big[i]; i++)
         {
             if (*(uc_big + i) == *uc_lil)
             {

@@ -19,3 +19,4 @@ int mx_memcmp(const void *restrict s1, const void *restrict s2, size_t n);
 void *mx_memrchr(const void *s, int c, size_t n);
 void *mx_memmove(void *restrict dst, const void *restrict src, size_t len);
 void *mx_realloc(void *ptr, size_t size);
+void *mx_calloc(size_t size, size_t elements);

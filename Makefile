@@ -93,8 +93,8 @@ $(eval $(call BUILD_template,debug_address,$(DFLAGS) -fsanitize=address -fno-san
 $(eval $(call BUILD_template,debug_undefined,$(DFLAGS) -fsanitize=undefined -fno-sanitize-recover=all -fsanitize=float-divide-by-zero -fsanitize=float-cast-overflow))
 $(eval $(call BUILD_template,debug_address_undefined,$(DFLAGS) -fsanitize=address,undefined -fno-sanitize-recover=all -fsanitize=float-divide-by-zero -fsanitize=float-cast-overflow -fno-sanitize=null -fno-sanitize=alignment))
 $(eval $(call BUILD_template,debug_leak,$(DFLAGS) -fsanitize=address))
-#$(eval $(call BUILD_template,debug_mx_memory,$(DFLAGS) -fsanitize=mx_memory))
-#$(eval $(call BUILD_template,debug_thread,$(DFLAGS) -fsanitize=thread))
+$(eval $(call BUILD_template,debug_memory,$(DFLAGS) -fsanitize=memory))
+$(eval $(call BUILD_template,debug_thread,$(DFLAGS) -fsanitize=thread))
 
 # default rule
 all: $(BUILD_NAMES)

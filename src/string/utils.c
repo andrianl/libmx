@@ -5,8 +5,9 @@
 
 char *mx_strnew(unsigned long size)
 {
-    char *str = (char *)malloc(size + 1);
-    mx_memset(str, '\0', size + 1);
+    // char *str = (char *)malloc(size + 1);
+    // mx_memset(str, '\0', size + 1);
+    char *str = (char *)mx_calloc(sizeof(char), size + 1);
     return str;
 }
 
